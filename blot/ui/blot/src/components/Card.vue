@@ -1,12 +1,14 @@
 <template>
-  <div class="card">
+  <div class="card" :style="cardStyle">
     <div class="template" :style="templateStyle"></div>
     <div class="rank" :style="rankStyle"></div>
+    <div class="rank-text-top">{{textInTheTop}}</div>
+    <div class="rank-text-middle" :style="rankTextMiddleStyle">{{textInTheMiddle}}</div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import {computed, defineComponent} from 'vue';
 
 export default defineComponent({
   props: {
@@ -21,47 +23,73 @@ export default defineComponent({
   },
   setup(props) {
     const spriteUrl = '/cards/sprite.png';
-    const spriteSize = { width: '3584px', height: '6032px' };
-    const cardSize = { width: '896px', height: '1302px' };
+    const spriteFrameCounts = {width: 4, height: 5};
+    const cardSize = {width: 896, height: 1302};
+
+    const suitTemplatePositions: Record<string, { x: number, y: number }> = {
+      spades: {x: 0, y: 0},
+      clubs: {x: 1, y: 0},
+      hearts: {x: 2, y: 0},
+      diamonds: {x: 3, y: 0}
+    };
 
     const suitPositions: Record<string, { x: number, y: number }> = {
-      spades: { x: 0, y: 0 },
-      clubs: { x: -896, y: 0 },
-      hearts: { x: -1792, y: 0 },
-      diamonds: { x: -2688, y: 0 }
+      spades: {x: 0, y: 3},
+      clubs: {x: 1, y: 3},
+      hearts: {x: 2, y: 3},
+      diamonds: {x: 3, y: 3}
     };
-
     const rankPositions: Record<string, { x: number, y: number }> = {
-      king: { x: 0, y: -1302 },
-      jack: { x: -896, y: -1302 },
-      queen: { x: -1792, y: -1302 }
+      k: {x: 0, y: 1},
+      j: {x: 1, y: 1},
+      q: {x: 2, y: 1}
     };
-
+    const backgroundPositionSuitTemplateX = suitTemplatePositions[props.suit].x*100/(spriteFrameCounts.width-1)
+    const backgroundPositionSuitTemplateY = suitTemplatePositions[props.suit].y*100/(spriteFrameCounts.height-1)
+    const cardStyle = computed(() => ({
+      aspectRatio: `${cardSize.width}/${cardSize.height}`,
+    }));
     const templateStyle = computed(() => ({
       backgroundImage: `url(${spriteUrl})`,
-      backgroundPosition: `${suitPositions[props.suit]?.x}px ${suitPositions[props.suit]?.y}px`,
-      width: cardSize.width,
-      height: cardSize.height,
-      backgroundSize: `${spriteSize.width} ${spriteSize.height}`,
-      position: 'absolute',
-      top: '0',
-      left: '0'
+      backgroundSize: ` ${spriteFrameCounts.width * 100}% auto`,
+      backgroundPosition: `${backgroundPositionSuitTemplateX}% ${backgroundPositionSuitTemplateY}%`,
     }));
+    let rankStyle = {};
+    const textInTheTop = props.rank.toUpperCase();
+    let textInTheMiddle = '';
+    switch (props.rank) {
+      case 'k':
+      case 'q':
+      case 'j':
+        const backgroundPositionRankX = rankPositions[props.rank].x*100/(spriteFrameCounts.width-1)
+        const backgroundPositionRankY = rankPositions[props.rank].y*100/(spriteFrameCounts.height-1)
+        rankStyle = computed(() => ({
+          backgroundImage: `url(${spriteUrl})`,
+          backgroundSize: ` ${spriteFrameCounts.width * 100}% auto`,
+          backgroundPosition: `${backgroundPositionRankX}% ${backgroundPositionRankY}%`,
+        }));
 
-    const rankStyle = computed(() => ({
-      backgroundImage: `url(${spriteUrl})`,
-      backgroundPosition: `${rankPositions[props.rank]?.x}px ${rankPositions[props.rank]?.y}px`,
-      width: cardSize.width,
-      height: cardSize.height,
-      backgroundSize: `${spriteSize.width} ${spriteSize.height}`,
-      position: 'absolute',
-      top: '0',
-      left: '0'
-    }));
+        break;
+      case 'a':
+      case '6': // TODO нужно ли 6,
+      case '7':
+      case '8':
+      case '9':
+      case '10':
+        textInTheMiddle = props.rank.toUpperCase();
+        break;
+      default:
+        break;
+    }
+
+
 
     return {
+      cardStyle,
       templateStyle,
-      rankStyle
+      rankStyle,
+      textInTheTop,
+      textInTheMiddle
     };
   }
 });
@@ -69,16 +97,50 @@ export default defineComponent({
 
 <style scoped>
 .card {
-  position: relative;
-  width: 896px;
-  height: 1302px;
+  width: 100%;
   border: 1px solid black;
   border-radius: 8px;
-  //background-color: #ccd3d9;
-  background-color: #494b4d;
+  //background-color: #000000;
+  background-color: #ccd3d9;
+  //background-color: #494b4d;
+  //background-size: contain;
+  //aspect-ratio: 896/1302;
+  position: relative;
 }
 
 .template, .rank {
   background-repeat: no-repeat;
+  //background-size: 400% auto;
+  //background-position: calc(100% / 3) 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
+
+.rank-text-top{
+  position: absolute;
+  top: 13%;
+  left: 18%;
+  transform: translate(-50%, -50%);
+  font-size: 1rem;
+  color: #9f865b;
+  font-family: "URW Chancery L", "Comic Sans MS", cursive;
+  font-weight: bold;
+  text-shadow: 2px 2px 2px black;
+}
+
+.rank-text-middle {
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+  font-size: 4rem;
+  color: #9f865b;
+  font-family: "URW Chancery L", "Comic Sans MS", cursive;
+  font-weight: bold;
+  text-shadow: 2px 2px 2px black;
+}
+
 </style>
