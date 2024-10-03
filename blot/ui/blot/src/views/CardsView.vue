@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import CardDeck from '../components/CardDeck.vue';
+import CardDeck from '../components/HandDeck.vue';
 
 export default defineComponent({
   components: {
