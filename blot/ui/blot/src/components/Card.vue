@@ -124,7 +124,7 @@ export default defineComponent({
   top: 13%;
   left: 18%;
   transform: translate(-50%, -50%);
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: #9f865b;
   font-family: "URW Chancery L", "Comic Sans MS", cursive;
   font-weight: bold;

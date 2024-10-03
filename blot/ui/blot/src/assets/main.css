@@ -6,7 +6,7 @@ body {
 }
 
 #app {
-  padding: 2rem;
+  /*padding: 2rem;*/
   font-weight: normal;
   display: flex;
   flex-direction: column;
