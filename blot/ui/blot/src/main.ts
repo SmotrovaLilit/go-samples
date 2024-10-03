@@ -8,6 +8,7 @@ import 'vuetify/styles';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
 import '@mdi/font/css/materialdesignicons.css';
 import '@fortawesome/fontawesome-free/css/all.css';
+import DraggableResizableVue from 'draggable-resizable-vue3'
 
 import App from './App.vue'
 import router from './router'
@@ -53,7 +54,9 @@ const vuetify = createVuetify({
         sets: { mdi },
     },
 });
+
 app.use(vuetify)
+app.use(DraggableResizableVue)
 
 app.mount('#app')
 

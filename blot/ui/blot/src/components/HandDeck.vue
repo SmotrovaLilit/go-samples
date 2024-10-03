@@ -3,7 +3,7 @@
       :list="cards"
       :disabled="false"
       item-key="id"
-      class="deck"
+      class="hand-deck"
       ghost-class="ghost"
       :move="checkMove"
       @end="onDragEnd"
@@ -73,11 +73,6 @@ export default defineComponent({
     cards: {
       type: Array as () => Array<{ rank: string; suit: string }>,
       required: true
-    },
-    marginBetweenCards: {
-      type: Number,
-      default: -100,
-      required: false
     }
   },
   setup(props) {
@@ -92,7 +87,10 @@ export default defineComponent({
         const angle = calculateAngle(index, props.cards.length);
         const marginTop = calculateMarginTop(angle);
         card.style.transform = `rotate(${angle}deg)`;
-        card.style.marginTop = `${marginTop}px`;
+        // card.style.transform = `rotate(${angle}deg) translateY(${marginTop}px)`;
+        // card.style.marginTop = `${marginTop}px`;
+        // card.style.paddingTop = `${marginTop}px`;
+        card.style.top = `${marginTop}px`;
         card.style.zIndex = index;
       });
     };
@@ -105,7 +103,6 @@ export default defineComponent({
         style: {
           transform: ``,
           marginTop: ``,
-          marginRight: `${props.marginBetweenCards}px`,
           zIndex: 0,
         },
       };
@@ -138,10 +135,14 @@ export default defineComponent({
       const newPositions = calculateNewPositions(cards.value.length, e.draggedContext.index, e.draggedContext.futureIndex);
       for (let i = 0; i < newPositions.length; i++) {
         const angle = calculateAngle(newPositions[i], cards.value.length);
-        const marginTop = e.draggedContext.index == i ? -100 + calculateMarginTop(angle): calculateMarginTop(angle);
+        // const marginTop = e.draggedContext.index == i ?  calculateMarginTop(angle): calculateMarginTop(angle);
+        const marginTop = e.draggedContext.index == i ? -50 + calculateMarginTop(angle): calculateMarginTop(angle);
         cards.value[i].style.zIndex = newPositions[i];
         cards.value[i].style.transform = `rotate(${angle}deg)`;
-        cards.value[i].style.marginTop = `${marginTop}px`;
+        // cards.value[i].style.transform = `rotate(${angle}deg) translateY(${marginTop}px)`;
+        cards.value[i].style.top = `${marginTop}px`;
+        // cards.value[i].style.marginTop = `${marginTop}px`;
+        // cards.value[i].style.paddingTop = `${marginTop}px`;
       }
       console.log(cards.value[0].rank + ' ' + cards.value[0].style.zIndex)
       console.log(cards.value[1].rank + ' ' + cards.value[1].style.zIndex)
@@ -154,7 +155,7 @@ export default defineComponent({
       draggedElement.style.transform = cards.value[e.oldIndex].style.transform;
       const angle = calculateAngle(e.oldIndex, cards.value.length);
       const marginTop = -100 + calculateMarginTop(angle);
-      cards.value[e.oldIndex].style.marginTop = `${marginTop}px`;
+      cards.value[e.oldIndex].style.top = `${marginTop}px`;
     };
     return {
       cards: cards,
@@ -168,25 +169,27 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.ghost {
+.hand-deck .ghost {
   opacity: 0.5;
 }
 
-.deck {
+.hand-deck {
   display: flex;
   width: 100%;
   align-items: center;
-  padding-left: 100px;
-  padding-right: 200px;
+  //padding-left: 100px;
+  //padding-right: 200px;
 }
 
-.card-container {
+.hand-deck .card-container {
   width: 100%;
   cursor: move;
   transition: transform 0.2s ease;
+  position: relative;
+  margin-right: -100px;
 }
 
-.not-draggable {
+.hand-deck .not-draggable {
   cursor: no-drop;
 }
 </style>

@@ -5,13 +5,15 @@
     <div class="game-middle">
       <div class="left-bar"></div>
       <div class="middle">
-<!--        <div class="table-cards"><CardDeck :cards="cardsInRound" :turn-on-cards=false :margin-between-cards=-100 /></div>-->
+        <div class="game-table">
+          <div class="table-cards"><RoundDeck :cards="cardsInRound" /></div>
+        </div>
       </div>
       <div class="right-bar"></div>
     </div>
     <div class="game-bottom">
       <div class="your-cards">
-        <CardDeck :cards="myCards" :turnOnCards=true />
+        <HandDeck :cards="myCards" />
       </div>
     </div>
   </div>
@@ -19,11 +21,13 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import CardDeck from '../components/HandDeck.vue';
+import HandDeck from "@/components/HandDeck.vue";
+import RoundDeck from "@/components/RoundDeck.vue";
 
 export default defineComponent({
   components: {
-    CardDeck
+    RoundDeck,
+    HandDeck,
   },
   setup() {
     const myCards = [
@@ -80,6 +84,7 @@ export default defineComponent({
   width: 60%;
   display: flex;
   justify-content: center;
+  padding: 20px;
   //background-color: yellow;
 }
 
@@ -97,16 +102,30 @@ export default defineComponent({
   //height: 30%;
   justify-content: center;
   padding-bottom: 30px;
+  box-sizing: border-box;
   //background-color: gray;
 }
+.game-table {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: #4f0c09;
+  border-radius: 40%;
+  box-shadow: 0 0 20px 10px #4f0c09;
+
+}
+
 .table-cards {
-  width: 60%;
+  width: 100%;
   display: flex;
   justify-content: center;
 }
 .your-cards {
-  width: 60%;
+  width: 40%;
   display: flex;
   justify-content: center;
+  position: fixed;
+  bottom: 0;
+  padding-bottom: 60px;
 }
 </style>
