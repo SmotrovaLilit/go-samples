@@ -12,12 +12,23 @@ import {RouterLink, RouterView} from 'vue-router'
       </nav>
     </div>
   </header>
-  <div class="container">
+  <div class="dark-theme container">
     <RouterView />
   </div>
 </template>
 
 <style scoped>
+.light-theme {
+  --card-background: #ccd3d9;
+  --card-border: #e0e0e0;
+  --card-shadow: 0 10px 10px rgba(0, 0, 0, 0.1),
+}
+.dark-theme {
+  --card-background: #494b4d;
+  --card-border: #333333;
+  --card-shadow: 0 10px 10px rgba(255, 255, 255, 0.1),
+  0 2px 4px rgba(255, 255, 255, 0.06);
+}
 
 header {
   line-height: 1.5;

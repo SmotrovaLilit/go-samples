@@ -169,14 +169,12 @@ export default defineComponent({
 
 <style scoped>
 .ghost {
-  box-shadow: 0 10px 20px white;
   opacity: 0.5;
 }
 
 .deck {
   display: flex;
   width: 100%;
-  //justify-content: center;
   align-items: center;
   padding-left: 100px;
   padding-right: 200px;
@@ -185,8 +183,6 @@ export default defineComponent({
 .card-container {
   width: 100%;
   cursor: move;
-  box-shadow: 0 10px 10px rgba(255, 255, 255, 0.1),
-  0 2px 4px rgba(255, 255, 255, 0.06);
   transition: transform 0.2s ease;
 }
 

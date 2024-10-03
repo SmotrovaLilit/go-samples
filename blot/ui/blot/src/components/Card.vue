@@ -96,22 +96,19 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
 .card {
   width: 100%;
-  border: 1px solid black;
+  border: 1px solid;
+  border-color: var(--card-border, #333333);
   border-radius: 8px;
-  //background-color: #000000;
-  //background-color: #ccd3d9;
-  background-color: #494b4d;
-  //background-size: contain;
-  //aspect-ratio: 896/1302;
+  box-shadow: var(--card-shadow, 0 10px 10px rgba(255, 255, 255, 0.1));
+  background-color: var(--card-background, white);
   position: relative;
 }
 
 .template, .rank {
   background-repeat: no-repeat;
-  //background-size: 400% auto;
-  //background-position: calc(100% / 3) 0;
   position: absolute;
   top: 0;
   left: 0;
