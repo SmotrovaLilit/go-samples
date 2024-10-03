@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@fortawesome/fontawesome-free':
+        specifier: ^6.6.0
+        version: 6.6.0
+      '@mdi/font':
+        specifier: ^7.4.47
+        version: 7.4.47
       pinia:
         specifier: ^2.1.7
         version: 2.2.3(typescript@5.4.5)(vue@3.5.10(typescript@5.4.5))
@@ -17,6 +23,12 @@ importers:
       vue-router:
         specifier: ^4.3.3
         version: 4.4.5(vue@3.5.10(typescript@5.4.5))
+      vuedraggable:
+        specifier: ^4.1.0
+        version: 4.1.0(vue@3.5.10(typescript@5.4.5))
+      vuetify:
+        specifier: 3.7.0-beta.1
+        version: 3.7.0-beta.1(typescript@5.4.5)(vue@3.5.10(typescript@5.4.5))
     devDependencies:
       '@rushstack/eslint-patch':
         specifier: ^1.8.0
@@ -405,6 +417,10 @@ packages:
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
+  '@fortawesome/fontawesome-free@6.6.0':
+    resolution: {integrity: sha512-60G28ke/sXdtS9KZCpZSHHkCbdsOGEhIUGlwq6yhY74UpTiToIh8np7A8yphhM4BWsvNFtIvLpi4co+h9Mr9Ow==}
+    engines: {node: '>=6'}
+
   '@hapi/hoek@9.3.0':
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
 
@@ -449,6 +465,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@mdi/font@7.4.47':
+    resolution: {integrity: sha512-43MtGpd585SNzHZPcYowu/84Vz2a2g31TvPMTm9uTiCSWzaheQySUcSyUH/46fPnuPQWof2yd0pGBtzee/IQWw==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -2193,6 +2212,9 @@ packages:
     resolution: {integrity: sha512-qMCMfhY040cVHT43K9BFygqYbUPFZKHOg7K73mtTWJRb8pyP3fzf4Ixd5SzdEJQ6MRUg/WBnOLxghZtKKurENQ==}
     engines: {node: '>=10'}
 
+  sortablejs@1.14.0:
+    resolution: {integrity: sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==}
+
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
@@ -2528,6 +2550,30 @@ packages:
       typescript: '*'
     peerDependenciesMeta:
       typescript:
+        optional: true
+
+  vuedraggable@4.1.0:
+    resolution: {integrity: sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww==}
+    peerDependencies:
+      vue: ^3.0.1
+
+  vuetify@3.7.0-beta.1:
+    resolution: {integrity: sha512-F6a+pSG7dLrU28sGlR8r4WMuBsLMprOsDpaywGopNrGk351Hs4AAhx/y88ROGUEf28yAPShSM86bPnD30xNyDw==}
+    engines: {node: ^12.20 || >=14.13}
+    peerDependencies:
+      typescript: '>=4.7'
+      vite-plugin-vuetify: '>=1.0.0'
+      vue: ^3.3.0
+      vue-i18n: ^9.0.0
+      webpack-plugin-vuetify: '>=2.0.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      vite-plugin-vuetify:
+        optional: true
+      vue-i18n:
+        optional: true
+      webpack-plugin-vuetify:
         optional: true
 
   w3c-xmlserializer@5.0.0:
@@ -2956,6 +3002,8 @@ snapshots:
 
   '@eslint/js@8.57.1': {}
 
+  '@fortawesome/fontawesome-free@6.6.0': {}
+
   '@hapi/hoek@9.3.0': {}
 
   '@hapi/topo@5.1.0':
@@ -3003,6 +3051,8 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@mdi/font@7.4.47': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -4846,6 +4896,8 @@ snapshots:
       astral-regex: 2.0.0
       is-fullwidth-code-point: 3.0.0
 
+  sortablejs@1.14.0: {}
+
   source-map-js@1.2.1: {}
 
   speakingurl@14.0.1: {}
@@ -5187,6 +5239,17 @@ snapshots:
       '@vue/runtime-dom': 3.5.10
       '@vue/server-renderer': 3.5.10(vue@3.5.10(typescript@5.4.5))
       '@vue/shared': 3.5.10
+    optionalDependencies:
+      typescript: 5.4.5
+
+  vuedraggable@4.1.0(vue@3.5.10(typescript@5.4.5)):
+    dependencies:
+      sortablejs: 1.14.0
+      vue: 3.5.10(typescript@5.4.5)
+
+  vuetify@3.7.0-beta.1(typescript@5.4.5)(vue@3.5.10(typescript@5.4.5)):
+    dependencies:
+      vue: 3.5.10(typescript@5.4.5)
     optionalDependencies:
       typescript: 5.4.5
 

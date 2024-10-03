@@ -3,7 +3,7 @@
     <div class="template" :style="templateStyle"></div>
     <div class="rank" :style="rankStyle"></div>
     <div class="rank-text-top">{{textInTheTop}}</div>
-    <div class="rank-text-middle" :style="rankTextMiddleStyle">{{textInTheMiddle}}</div>
+    <div class="rank-text-middle">{{textInTheMiddle}}</div>
   </div>
 </template>
 
@@ -101,8 +101,8 @@ export default defineComponent({
   border: 1px solid black;
   border-radius: 8px;
   //background-color: #000000;
-  background-color: #ccd3d9;
-  //background-color: #494b4d;
+  //background-color: #ccd3d9;
+  background-color: #494b4d;
   //background-size: contain;
   //aspect-ratio: 896/1302;
   position: relative;
@@ -120,6 +120,10 @@ export default defineComponent({
 }
 
 .rank-text-top{
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   position: absolute;
   top: 13%;
   left: 18%;
@@ -132,6 +136,10 @@ export default defineComponent({
 }
 
 .rank-text-middle {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   position: absolute;
   bottom: 50%;
   right: 50%;

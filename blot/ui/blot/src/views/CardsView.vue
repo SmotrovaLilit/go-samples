@@ -5,7 +5,7 @@
     <div class="game-middle">
       <div class="left-bar"></div>
       <div class="middle">
-        <div class="table-cards"><CardDeck :cards="cardsInRound" :turn-on-cards=false :margin-between-cards=-100 /></div>
+<!--        <div class="table-cards"><CardDeck :cards="cardsInRound" :turn-on-cards=false :margin-between-cards=-100 /></div>-->
       </div>
       <div class="right-bar"></div>
     </div>
@@ -34,7 +34,7 @@ export default defineComponent({
       {rank: 'a', suit: 'spades'},
       {rank: '10', suit: 'clubs'},
       {rank: '7', suit: 'hearts'},
-      // { rank: '8', suit: 'diamonds' }
+      { rank: '8', suit: 'diamonds' }
     ];
     const cardsInRound = [
       {rank: 'k', suit: 'spades'},
@@ -94,7 +94,7 @@ export default defineComponent({
   //bottom: 0;
   //left: 0;
   //width: 100%;
-  height: 30%;
+  //height: 30%;
   justify-content: center;
   padding-bottom: 30px;
   //background-color: gray;
