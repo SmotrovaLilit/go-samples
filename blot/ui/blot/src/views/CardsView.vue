@@ -63,7 +63,7 @@ export default defineComponent({
       {rank: 'j', suit: 'clubs'},
       {rank: 'q', suit: 'hearts'},
       {rank: 'j', suit: 'diamonds'},
-      {rank: 'a', suit: 'spades'},
+      // {rank: 'a', suit: 'spades'},
       // {rank: '10', suit: 'clubs'},
       // {rank: '7', suit: 'hearts'},
       // { rank: '8', suit: 'diamonds' }

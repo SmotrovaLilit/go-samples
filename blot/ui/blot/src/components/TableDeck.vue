@@ -1,7 +1,6 @@
 <template>
   <div id="round-deck-table" class="round-deck-table">
     <div class="round-deck">
-      {{ title }}
       <draggable-resizable-vue
           v-for="(card, index) in cards"
           :key="card.id"
@@ -22,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import {defineProps, ref} from 'vue';
+import {defineProps, ref, onMounted, onBeforeUnmount} from 'vue';
 import DraggableResizableVue from 'draggable-resizable-vue3';
 import Card from './Card.vue';
 
@@ -39,9 +38,6 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 function generateRandomNumberBetween(min: number, max: number): number {
-  console.log('min', min);
-  console.log('max', max);
-  console.log(Math.floor(Math.random() * (max - min + 1)) + min);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -61,17 +57,10 @@ const cards = ref<Array<{
   zIndex: number;
 }>>([]);
 
-const parentWidth = 600; // TODO get the parent container width
-const parentHeight = 600; // TODO get the parent container height
 
 cards.value = props.cards.map((card, index) => {
   const id = `${card.rank}-${card.suit}`;
   const angle = randomAngle();
-
-  const cardWidth = 0.25 * parentWidth; // 20% of the parent container width
-  const cardX = (parentWidth - cardWidth) / 2; // Center horizontally
-  const cardY = (parentHeight - cardWidth) / 2; // Center vertically
-  const tolerance = 0.25 * parentWidth; // 5% of the parent container width
 
   return {
     id,
@@ -80,12 +69,44 @@ cards.value = props.cards.map((card, index) => {
     style: {
       transform: `rotate(${angle}deg)`,
     },
-    x: generateRandomNumberBetween(cardX - tolerance, cardX + tolerance), // Centered X position;
-    y: generateRandomNumberBetween(cardY - tolerance, cardY + tolerance / 2), // Centered Y position
-    width: cardWidth,
     zIndex: index,
   };
 });
+
+const calculateCardSizes = () => {
+
+  const container = document.getElementById('round-deck-table');
+  let parentWidth = 600;
+  let parentHeight = 600;
+  if (container) {
+    parentWidth = container.clientWidth;
+    parentHeight = container.clientHeight;
+  }
+
+  cards.value = cards.value.map((card, index) => {
+    const cardWidth = 0.25 * parentWidth; // 20% of the parent container width
+    const cardX = (parentWidth - cardWidth) / 2; // Center horizontally
+    const cardY = (parentHeight - cardWidth) / 2; // Center vertically
+    const tolerance = 0.25 * parentWidth; // 5% of the parent container width
+    return {
+      ...card,
+      x: card.x ? card.x : generateRandomNumberBetween(cardX - tolerance, cardX + tolerance), // Centered X position;
+      y: card.y ? card.y : generateRandomNumberBetween(cardY - tolerance, cardY + tolerance / 2), // Centered Y position
+      width: cardWidth,
+    };
+  });
+}
+
+onMounted(() => {
+  calculateCardSizes();
+
+  // window.addEventListener('resize', calculateCardSizes);
+});
+
+onBeforeUnmount(() => {
+  //window.removeEventListener('resize', calculateCardSizes);
+});
+
 </script>
 
 <style scoped>
