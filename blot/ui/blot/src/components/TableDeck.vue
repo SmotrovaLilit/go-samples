@@ -1,6 +1,7 @@
 <template>
   <div id="round-deck-table" class="round-deck-table">
     <div class="round-deck">
+      {{ title }}
       <draggable-resizable-vue
           v-for="(card, index) in cards"
           :key="card.id"
@@ -13,7 +14,7 @@
           :z="card.zIndex"
       >
         <div :style="card.style">
-          <Card :rank="card.rank" :suit="card.suit" />
+          <Card :rank="card.rank" :suit="card.suit"/>
         </div>
       </draggable-resizable-vue>
     </div>
@@ -21,12 +22,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import {defineProps, ref} from 'vue';
 import DraggableResizableVue from 'draggable-resizable-vue3';
 import Card from './Card.vue';
 
-function getRandomNumber(max: number): number {
-  return Math.floor(Math.random() * max);
+interface Card {
+  rank: string;
+  suit: string;
+}
+
+interface Props {
+  cards: { type: Card[], required: false };
+}
+const props = withDefaults(defineProps<Props>(), {
+  cards: [],
+})
+
+function generateRandomNumberBetween(min: number, max: number): number {
+  console.log('min', min);
+  console.log('max', max);
+  console.log(Math.floor(Math.random() * (max - min + 1)) + min);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function randomAngle() {
@@ -45,17 +61,18 @@ const cards = ref<Array<{
   zIndex: number;
 }>>([]);
 
-// Здесь вы можете указать свои карты
-const cardData = [
-  { rank: 'a', suit: 'hearts' },
-  { rank: 'k', suit: 'diamonds' },
-  { rank: 'q', suit: 'clubs' },
-  { rank: 'q', suit: 'spades' },
-];
+const parentWidth = 600; // TODO get the parent container width
+const parentHeight = 600; // TODO get the parent container height
 
-cards.value = cardData.map((card, index) => {
+cards.value = props.cards.map((card, index) => {
   const id = `${card.rank}-${card.suit}`;
   const angle = randomAngle();
+
+  const cardWidth = 0.25 * parentWidth; // 20% of the parent container width
+  const cardX = (parentWidth - cardWidth) / 2; // Center horizontally
+  const cardY = (parentHeight - cardWidth) / 2; // Center vertically
+  const tolerance = 0.25 * parentWidth; // 5% of the parent container width
+
   return {
     id,
     rank: card.rank,
@@ -63,11 +80,9 @@ cards.value = cardData.map((card, index) => {
     style: {
       transform: `rotate(${angle}deg)`,
     },
-    // x: getRandomNumber(200),
-    // y: getRandomNumber(50),
-    x: 400, // TODO find a way to calculate it based on the parent container size. Should be in the middle
-    y: 100, // TODO find a way to calculate it based on the parent container size. Should be in the middle
-    width: 100, // TODO find a way to calculate it based on the parent container size
+    x: generateRandomNumberBetween(cardX - tolerance, cardX + tolerance), // Centered X position;
+    y: generateRandomNumberBetween(cardY - tolerance, cardY + tolerance / 2), // Centered Y position
+    width: cardWidth,
     zIndex: index,
   };
 });
@@ -77,6 +92,7 @@ cards.value = cardData.map((card, index) => {
 .round-deck-table {
   width: 100%;
 }
+
 .round-deck {
   display: flex;
   position: relative;
@@ -91,8 +107,8 @@ cards.value = cardData.map((card, index) => {
   left: 0;
   height: auto;
   cursor: move;
-  transition: transform 0.2s ease;
-  border:none;
+  //transition: transform 1s ease;
+  border: none;
 }
 
 </style>
