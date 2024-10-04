@@ -1,19 +1,33 @@
 <template>
+  <div class="players-cards top-player-cards">
+    <ClosedDeck :cards-count="cardsInAHand"/>
+  </div>
+  <div class="players-cards left-player-cards">
+    <ClosedDeck :cards-count="cardsInAHand"/>
+  </div>
+  <div class="players-cards right-player-cards">
+    <ClosedDeck :cards-count="cardsInAHand"/>
+  </div>
   <div class="game-container">
     <div class="game-top">
+
     </div>
     <div class="game-middle">
-      <div class="left-bar"></div>
+      <div class="left-bar">
+      </div>
       <div class="middle">
         <div class="game-table">
-          <div class="table-cards"><RoundDeck :cards="cardsInRound" /></div>
+          <div class="table-cards">
+            <RoundDeck :cards="cardsInRound"/>
+          </div>
         </div>
       </div>
-      <div class="right-bar"></div>
+      <div class="right-bar">
+      </div>
     </div>
     <div class="game-bottom">
       <div class="your-cards">
-        <HandDeck :cards="myCards" />
+        <HandDeck :cards="myCards"/>
       </div>
     </div>
   </div>
@@ -23,9 +37,13 @@
 import {defineComponent} from 'vue';
 import HandDeck from "@/components/HandDeck.vue";
 import RoundDeck from "@/components/RoundDeck.vue";
+import ClosedCard from "@/components/ClosedCard.vue";
+import ClosedDeck from "@/components/ClosedDeck.vue";
 
 export default defineComponent({
   components: {
+    ClosedDeck,
+    ClosedCard,
     RoundDeck,
     HandDeck,
   },
@@ -38,7 +56,7 @@ export default defineComponent({
       {rank: 'a', suit: 'spades'},
       {rank: '10', suit: 'clubs'},
       {rank: '7', suit: 'hearts'},
-      { rank: '8', suit: 'diamonds' }
+      {rank: '8', suit: 'diamonds'}
     ];
     const cardsInRound = [
       {rank: 'k', suit: 'spades'},
@@ -54,6 +72,7 @@ export default defineComponent({
     return {
       cardsInRound,
       myCards,
+      cardsInAHand: 8
     };
   }
 });
@@ -64,7 +83,10 @@ export default defineComponent({
   flex-direction: column;
   height: 100vh;
 }
+
 .game-top {
+  display: flex;
+  justify-content: center;
   height: 20%;
   //background-color: blue;
 }
@@ -75,8 +97,11 @@ export default defineComponent({
   height: 50%;
   //background-color: red;
 }
+
 .left-bar {
   width: 20%;
+  //display: flex;
+  //justify-content: center;
   //background-color: white;
 }
 
@@ -90,6 +115,8 @@ export default defineComponent({
 
 .right-bar {
   width: 20%;
+  display: flex;
+  justify-content: center;
   //background-color: green;
 }
 
@@ -100,11 +127,11 @@ export default defineComponent({
   //left: 0;
   //width: 100%;
   //height: 30%;
-  justify-content: center;
   padding-bottom: 30px;
   box-sizing: border-box;
   //background-color: gray;
 }
+
 .game-table {
   display: flex;
   justify-content: center;
@@ -120,12 +147,38 @@ export default defineComponent({
   display: flex;
   justify-content: center;
 }
+
 .your-cards {
   width: 40%;
   display: flex;
-  justify-content: center;
   position: fixed;
   bottom: 0;
   padding-bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.players-cards {
+  width: 20%;
+  position: fixed;
+}
+
+.left-player-cards {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+
+.right-player-cards {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+.top-player-cards {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) rotate(-180deg) ;
 }
 </style>

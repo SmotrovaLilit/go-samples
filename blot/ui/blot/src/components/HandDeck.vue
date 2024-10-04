@@ -177,8 +177,7 @@ export default defineComponent({
   display: flex;
   width: 100%;
   align-items: center;
-  //padding-left: 100px;
-  //padding-right: 200px;
+  transform: translateX(-7%);
 }
 
 .hand-deck .card-container {
@@ -186,7 +185,7 @@ export default defineComponent({
   cursor: move;
   transition: transform 0.2s ease;
   position: relative;
-  margin-right: -100px;
+  margin-right: -10%;
 }
 
 .hand-deck .not-draggable {

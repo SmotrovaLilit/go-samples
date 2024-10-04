@@ -8,7 +8,6 @@
           v-model:x="card.x"
           v-model:y="card.y"
           v-model:w="card.width"
-          v-model:h="card.height"
           :resizable="false"
           parent="#round-deck-table"
           :z="card.zIndex"
@@ -64,9 +63,11 @@ cards.value = cardData.map((card, index) => {
     style: {
       transform: `rotate(${angle}deg)`,
     },
-    x: getRandomNumber(200),
-    y: getRandomNumber(50),
-    width: '100',
+    // x: getRandomNumber(200),
+    // y: getRandomNumber(50),
+    x: 400, // TODO find a way to calculate it based on the parent container size. Should be in the middle
+    y: 100, // TODO find a way to calculate it based on the parent container size. Should be in the middle
+    width: 100, // TODO find a way to calculate it based on the parent container size
     zIndex: index,
   };
 });
