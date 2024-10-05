@@ -74,7 +74,7 @@ cards.value = props.cards.map((card, index) => {
 });
 
 const calculateCardSizes = () => {
-
+  console.log("table cards ", cards.value)
   const container = document.getElementById('round-deck-table');
   let parentWidth = 600;
   let parentHeight = 600;

@@ -15,20 +15,24 @@ message GetGameForPlayerRequest {
 
 message GetGameForPlayerResponse {
   Game game = 1;
+  Player current_player = 2;
+  Player ally_player = 3;
+  Player left_player = 4;
+  Player right_player = 5;
 }
 
 message Game {
   string id = 1;
   GameStatus status = 2;
-  repeated Player players = 4;
-  Round rounds = 5;
-  Bet bet = 6;
-  repeated Team teams = 7;
+  Round round = 3;
+  Bet bet = 4;
+  repeated Team teams = 5;
 }
 
 message Bet {
   Suit trump = 1;
   string team_id = 2;
+  int32 amount = 3;
 }
 
 message Team {

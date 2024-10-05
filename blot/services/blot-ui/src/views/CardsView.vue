@@ -1,78 +1,108 @@
 <template>
-  <div class="players-cards top-player-cards">
-    <ClosedDeck :cards-count="cardsInAHand"/>
+  <div>
+    <h1 v-if="game">Current player = {{ game.currentPlayer.name }}</h1>
+    <h1 v-if="game">Team = {{ game.currentPlayer.team_id }}</h1>
+    <p v-if="loading">Loading...</p>
+    <p v-if="error">{{ error }}</p>
   </div>
-  <div class="players-cards left-player-cards">
-    <ClosedDeck :cards-count="cardsInAHand"/>
-  </div>
-  <div class="players-cards right-player-cards">
-    <ClosedDeck :cards-count="cardsInAHand"/>
-  </div>
-  <div class="game-container">
-    <div class="game-top">
-
-    </div>
-    <div class="game-middle">
-      <div class="left-bar">
+  <div v-if="game">
+    <div class="game-stat">
+      <div class="trump">
+        <Icon :type="game.bet.trump"/>
       </div>
-      <div class="middle">
-        <div class="game-table">
-          <div class="table-cards">
-            <TableDeck :cards="cardsInRound" title="dasd"/>
+      <div class="round">
+        R {{ game.round.number }}
+      </div>
+      <div v-if="betTeam" class="bet">
+        {{ betTeam.name }} ({{ game.bet.amount }})
+      </div>
+    </div>
+    <div class="player-container top-player-container">
+      <div class="player-name">{{ game.allyPlayer.name }}</div>
+      <div class="players-cards">
+        <ClosedDeck :cards-count="game.allyPlayer.hand_cards.length"/>
+      </div>
+    </div>
+    <div class="player-container left-player-container">
+      <div class="player-name">{{ game.leftPlayer.name }}</div>
+      <div class="players-cards">
+        <ClosedDeck :cards-count="game.leftPlayer.hand_cards.length"/>
+      </div>
+    </div>
+    <div class="player-container right-player-container">
+      <div class="player-name">{{ game.rightPlayer.name }}</div>
+      <div class="players-cards">
+        <ClosedDeck :cards-count="game.rightPlayer.hand_cards.length"/>
+      </div>
+    </div>
+    <div class="game-container">
+      <div class="game-top">
+
+      </div>
+      <div class="game-middle">
+        <div class="left-bar">
+        </div>
+        <div class="middle">
+          <div class="game-table">
+            <div class="table-cards">
+              <TableDeck :cards="tableCards"/>
+            </div>
           </div>
         </div>
+        <div class="right-bar">
+        </div>
       </div>
-      <div class="right-bar">
-      </div>
-    </div>
-    <div class="game-bottom">
-      <div class="your-cards">
-        <HandDeck :cards="myCards"/>
+      <div class="game-bottom">
+        <div class="your-cards">
+          <HandDeck :cards="game.currentPlayer.hand_cards"/>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {defineComponent, onMounted, watch} from 'vue';
+import {storeToRefs} from 'pinia'
 import HandDeck from "@/components/HandDeck.vue";
 import TableDeck from "@/components/TableDeck.vue";
 import ClosedCard from "@/components/ClosedCard.vue";
 import ClosedDeck from "@/components/ClosedDeck.vue";
+import {useGameStore} from '@/stores/gameStore.ts';
+import {useRoute} from 'vue-router';
+import Icon from "@/components/Icon.vue";
 
 export default defineComponent({
   components: {
+    Icon,
     ClosedDeck,
     ClosedCard,
     TableDeck,
     HandDeck,
   },
   setup() {
-    const myCards = [
-      {rank: 'k', suit: 'spades'},
-      {rank: 'j', suit: 'clubs'},
-      {rank: 'q', suit: 'hearts'},
-      {rank: 'j', suit: 'diamonds'},
-      {rank: 'a', suit: 'spades'},
-      {rank: '10', suit: 'clubs'},
-      {rank: '7', suit: 'hearts'},
-      {rank: '8', suit: 'diamonds'}
-    ];
-    const cardsInRound = [
-      {rank: 'k', suit: 'spades'},
-      {rank: 'j', suit: 'clubs'},
-      {rank: 'q', suit: 'hearts'},
-      {rank: 'j', suit: 'diamonds'},
-      // {rank: 'a', suit: 'spades'},
-      // {rank: '10', suit: 'clubs'},
-      // {rank: '7', suit: 'hearts'},
-      // { rank: '8', suit: 'diamonds' }
-    ];
+    const gameStore = useGameStore();
+    const {
+      game,
+      loading,
+      error,
+      tableCards,
+      betTeam,
+    } = storeToRefs(gameStore);
+    const route = useRoute();
+    watch(game, (newGame) => {
+      console.log('count', game.value.bet);
+    });
+    onMounted(() => {
+      gameStore.fetchGame(route.params.gameId);
 
+    });
     return {
-      cardsInRound,
-      myCards,
-      cardsInAHand: 8
+      loading: loading,
+      error: error,
+      game: game,
+      tableCards: tableCards,
+      betTeam: betTeam,
     };
   }
 });
@@ -139,10 +169,9 @@ export default defineComponent({
   aspect-ratio: 1/1;
   border-radius: 50%; /* Make the div circular */
   background: radial-gradient(circle, #822624 0%, #4f0c09 100%);
-  box-shadow:
-      0 20px 30px rgba(25, 24, 24, 0.5),
-      inset 0 -10px 15px rgba(49, 48, 48, 0.4),
-      inset 0 10px 15px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 30px rgba(25, 24, 24, 0.5),
+  inset 0 -10px 15px rgba(49, 48, 48, 0.4),
+  inset 0 10px 15px rgba(255, 255, 255, 0.1);
   position: fixed;
   top: 50%;
   left: 50%;
@@ -168,28 +197,87 @@ export default defineComponent({
   z-index: 2;
 }
 
-.players-cards {
+.player-container {
   width: 20%;
   position: fixed;
   z-index: 2;
 }
 
-.left-player-cards {
+.players-cards {
+  width: 100%;
+}
+
+.left-player-container {
   left: 0;
   top: 50%;
-  transform: translateY(-50%) rotate(90deg);
+  transform: translateY(-50%);
 }
 
-
-.right-player-cards {
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
+.left-player-container .players-cards {
+  transform: rotate(90deg);
 }
 
-.top-player-cards {
+.top-player-container {
   top: 0;
   left: 50%;
-  transform: translateX(-50%) rotate(-180deg) ;
+  transform: translateX(-50%);
+}
+
+.top-player-container .players-cards {
+  transform: rotate(-180deg);
+}
+
+
+.right-player-container {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.right-player-container .players-cards {
+  transform: rotate(-90deg);
+}
+
+.player-name {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+}
+
+.game-stat {
+  position: fixed;
+  top: 0;
+  right: 50px;
+  z-index: 2;
+  text-align: center;
+  align-items: center;
+  padding: 20px;
+  width: 10%;
+  max-width: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-stat .trump {
+  width: 100%;
+}
+
+.game-stat .round {
+  width: 100%;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.game-stat .bet {
+  width: 100%;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
 }
 </style>
