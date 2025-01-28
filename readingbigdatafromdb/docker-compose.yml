@@ -1,0 +1,15 @@
+# postgres sql for go program
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "2345:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
